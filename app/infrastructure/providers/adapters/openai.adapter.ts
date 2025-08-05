@@ -43,6 +43,8 @@ export class OpenAIAdapter extends BaseProviderAdapter {
         'gpt-4.1-mini',
         'gpt-4.1',
         'chatgpt-4o-latest',
+        'gpt-oss-20b',
+        'gpt-oss-120b',
         'o1',
         'o3-mini',
         'o3',
