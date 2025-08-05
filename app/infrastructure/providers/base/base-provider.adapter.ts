@@ -56,7 +56,6 @@ export abstract class BaseProviderAdapter {
   protected readonly logger: ILogger;
   protected readonly metricsService: MetricsService;
   public configuration: ProviderConfiguration;
-  protected healthStatus: ProviderHealthStatus;
 
   constructor(
     configuration: ProviderConfiguration,
@@ -66,17 +65,9 @@ export abstract class BaseProviderAdapter {
     this.configuration = configuration;
     this.logger = logger.createChild(this.configuration.name);
     this.metricsService = metricsService;
-    this.healthStatus = {
-      isHealthy: true,
-      lastChecked: 0,
-      latency: 0,
-      errorRate: 0,
-      consecutiveFailures: 0
-    };
 
     this.validateConfiguration();
   }
-
 
   public getSupportedModels(): readonly string[] {
     return this.configuration.supportedModels;
