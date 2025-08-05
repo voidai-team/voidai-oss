@@ -127,6 +127,30 @@ export class ModelRegistryService {
         supportsToolCalling: false
       },
       {
+        id: 'gpt-oss-20b',
+        object: 'model',
+        ownedBy: 'openai',
+        endpoints: ['/v1/chat/completions'],
+        planRequirements: ['free', 'basic', 'premium', 'enterprise'],
+        costType: 'per_token',
+        baseCost: 0,
+        multiplier: 0.1,
+        supportsStreaming: true,
+        supportsToolCalling: true
+      },
+      {
+        id: 'gpt-oss-120b',
+        object: 'model',
+        ownedBy: 'openai',
+        endpoints: ['/v1/chat/completions'],
+        planRequirements: ['free', 'basic', 'premium', 'enterprise'],
+        costType: 'per_token',
+        baseCost: 0,
+        multiplier: 0.15,
+        supportsStreaming: true,
+        supportsToolCalling: true
+      },
+      {
         id: 'o1',
         object: 'model',
         ownedBy: 'openai',
