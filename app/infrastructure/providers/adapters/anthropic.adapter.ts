@@ -144,14 +144,6 @@ export class AnthropicAdapter extends BaseProviderAdapter {
     throw new Error('This provider does not support this endpoint');
   }
 
-  protected async executeHealthCheck(): Promise<void> {
-    await this.makeHttpRequest<any>('/messages', 'POST', {
-      model: 'claude-3-haiku-20240307',
-      messages: [{ role: 'user', content: 'test' }],
-      max_tokens: 1
-    });
-  }
-
   protected createHttpHeaders(): Record<string, string> {
     return {
       'X-Api-Key': this.configuration.apiKey || '',

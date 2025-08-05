@@ -12,7 +12,6 @@ export interface ProviderConfiguration {
   readonly needsSubProviders: boolean;
   readonly isActive: boolean;
   readonly priority: number;
-  readonly healthCheckUrl?: string;
   readonly baseUrl: string;
   readonly timeout: number;
   readonly retryAttempts: number;
@@ -35,7 +34,6 @@ export interface ProviderMetrics {
   successCount: number;
   consecutiveErrors: number;
   timeoutCount: number;
-  lastHealthCheck?: number;
   healthStatus: 'healthy' | 'degraded' | 'unhealthy';
   uptime: number;
   throughput: {
@@ -212,7 +210,6 @@ export class Provider {
 
   updateHealthStatus(status: 'healthy' | 'degraded' | 'unhealthy'): void {
     this.metrics.healthStatus = status;
-    this.metrics.lastHealthCheck = Date.now();
   }
 
   getMetrics(): {
@@ -313,10 +310,6 @@ export class Provider {
 
   getFeatures(): string[] {
     return [...this.configuration.features];
-  }
-
-  getHealthCheckUrl(): string | undefined {
-    return this.configuration.healthCheckUrl;
   }
 
   getIdentity(): ProviderIdentity {
@@ -480,7 +473,5 @@ export class Provider {
     } else if (consecutiveErrors === 0 && successRate >= 0.95 && avgLatency <= 2000) {
       this.metrics.healthStatus = 'healthy';
     }
-    
-    this.metrics.lastHealthCheck = Date.now();
   }
 }

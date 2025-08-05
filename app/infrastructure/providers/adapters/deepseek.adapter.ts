@@ -88,10 +88,6 @@ export class DeepseekAdapter extends BaseProviderAdapter {
     throw new Error('This provider does not support this endpoint');
   }
 
-  protected async executeHealthCheck(): Promise<void> {
-    await this.makeHttpRequest<any>('/models', 'GET');
-  }
-
   private async *createStreamResponse(endpoint: string, request: ChatCompletionRequest): AsyncIterable<StreamChunk> {
     const response = await fetch(`${this.configuration.baseUrl}${endpoint}`, {
       method: 'POST',

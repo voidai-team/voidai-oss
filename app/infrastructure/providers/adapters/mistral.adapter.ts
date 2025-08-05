@@ -99,10 +99,6 @@ export class MistralAdapter extends BaseProviderAdapter {
     return response;
   }
 
-  protected async executeHealthCheck(): Promise<void> {
-    await this.makeHttpRequest<any>('/models', 'GET');
-  }
-
   private transformMessages(messages: any[]): any[] {
     return messages.map(message => {
       if (message.content && Array.isArray(message.content)) {

@@ -204,18 +204,6 @@ export class GoogleAdapter extends BaseProviderAdapter {
     throw new Error('This provider does not support this endpoint');
   }
 
-  protected async executeHealthCheck(): Promise<void> {
-    await this.makeHttpRequest<any>(
-      `/models/gemini-1.5-flash:generateContent?key=${this.configuration.apiKey}`,
-      'POST',
-      {
-        contents: [{ role: 'user', parts: [{ text: 'test' }] }],
-        generationConfig: { maxOutputTokens: 1 }
-      },
-      { 'Content-Type': 'application/json' }
-    );
-  }
-
   private transformChatRequest(request: ChatCompletionRequest): GoogleRequest {
     const { contents, systemInstruction } = this.processMessages(request.messages);
 

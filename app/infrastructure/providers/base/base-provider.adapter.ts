@@ -82,10 +82,6 @@ export abstract class BaseProviderAdapter {
     return this.configuration.supportedModels;
   }
 
-  public getHealthStatus(): ProviderHealthStatus {
-    return { ...this.healthStatus };
-  }
-
   public supportsModel(model: string): boolean {
     return this.configuration.supportedModels.includes(model);
   }
@@ -257,49 +253,6 @@ export abstract class BaseProviderAdapter {
     }
   }
 
-  public async performHealthCheck(): Promise<ProviderHealthStatus> {
-    const startTime = Date.now();
-    
-    try {
-      await this.executeHealthCheck();
-      
-      const latency = Date.now() - startTime;
-      this.healthStatus = {
-        isHealthy: true,
-        lastChecked: Date.now(),
-        latency,
-        errorRate: Math.max(0, this.healthStatus.errorRate - 0.1),
-        consecutiveFailures: 0
-      };
-      
-      this.logger.debug('Health check passed', {
-        metadata: {
-          provider: this.configuration.name,
-          latency
-        }
-      });
-      
-    } catch (error) {
-      this.healthStatus = {
-        isHealthy: false,
-        lastChecked: Date.now(),
-        latency: Date.now() - startTime,
-        errorRate: Math.min(1, this.healthStatus.errorRate + 0.2),
-        consecutiveFailures: this.healthStatus.consecutiveFailures + 1
-      };
-      
-      this.logger.warn('Health check failed', {
-        metadata: {
-          provider: this.configuration.name,
-          error: (error as Error).message,
-          consecutiveFailures: this.healthStatus.consecutiveFailures
-        }
-      });
-    }
-    
-    return this.getHealthStatus();
-  }
-
   protected abstract executeChatCompletion(request: ChatCompletionRequest, context: ProviderRequestContext): Promise<ChatCompletionResponse | AsyncIterable<any>>;
   protected abstract executeTextToSpeech(request: SpeechRequest, context: ProviderRequestContext): Promise<ArrayBuffer>;
   protected abstract executeAudioTranscription(request: AudioTranscriptionRequest, context: ProviderRequestContext): Promise<TranscriptionResponse>;
@@ -307,7 +260,6 @@ export abstract class BaseProviderAdapter {
   protected abstract executeGenerateImages(request: ImageGenerationRequest, context: ProviderRequestContext): Promise<ImageResponse>;
   protected abstract executeEditImages(request: ImageEditRequest, context: ProviderRequestContext): Promise<ImageResponse>;
   protected abstract executeModerateContent(request: ModerationRequest, context: ProviderRequestContext): Promise<ModerationResponse>;
-  protected abstract executeHealthCheck(): Promise<void>;
 
   protected createHttpHeaders(): Record<string, string> {
     return {

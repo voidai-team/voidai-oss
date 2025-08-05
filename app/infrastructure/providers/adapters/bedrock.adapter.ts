@@ -187,28 +187,6 @@ export class BedrockAdapter extends BaseProviderAdapter {
     throw new Error('This provider does not support this endpoint');
   }
 
-  protected async executeHealthCheck(): Promise<void> {
-    const testRequest = this.buildRequest({
-      model: 'claude-3-haiku-20240307',
-      messages: [{ role: 'user', content: 'test' }],
-      max_tokens: 1
-    } as ChatCompletionRequest);
-    
-    const modelId = this.modelMapping['claude-3-haiku-20240307'];
-    const url = `${this.configuration.baseUrl}/${modelId}/invoke`;
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: this.createHeaders(),
-      body: JSON.stringify(testRequest),
-      signal: AbortSignal.timeout(this.configuration.timeout)
-    });
-
-    if (!response.ok) {
-      throw new Error(`Health check failed: ${response.status}`);
-    }
-  }
-
   private createHeaders(): Record<string, string> {
     return {
       'Authorization': `Bearer ${this.configuration.apiKey}`,

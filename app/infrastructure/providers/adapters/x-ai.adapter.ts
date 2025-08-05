@@ -98,14 +98,6 @@ export class XAIAdapter extends BaseProviderAdapter {
     throw new Error('This provider does not support this endpoint');
   }
 
-  protected async executeHealthCheck(): Promise<void> {
-    await this.makeHttpRequest<any>('/chat/completions', 'POST', {
-      model: 'grok-2',
-      messages: [{ role: 'user', content: 'test' }],
-      max_tokens: 1
-    });
-  }
-
   private async *createStreamResponse(endpoint: string, request: ChatCompletionRequest): AsyncIterable<StreamChunk> {
     const response = await fetch(`${this.configuration.baseUrl}${endpoint}`, {
       method: 'POST',

@@ -54,7 +54,6 @@ export class MongoProviderRepository implements ProviderRepository {
         successCount: metrics.successCount,
         consecutiveErrors: metrics.consecutiveErrors,
         timeoutCount: metrics.timeoutCount,
-        lastHealthCheck: Date.now(),
         healthStatus: metrics.healthStatus as 'healthy' | 'degraded' | 'unhealthy',
         uptime: metrics.uptime,
         throughput: metrics.throughput,
@@ -325,7 +324,6 @@ export class MongoProviderRepository implements ProviderRepository {
         { 
           $set: { 
             'metrics.healthStatus': status,
-            'metrics.lastHealthCheck': Date.now(),
             updatedAt: new Date()
           }
         }
