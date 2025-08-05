@@ -1,0 +1,30 @@
+{
+  "name": "voidai-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "Acatto, Lukinhas",
+  "license": "ISC",
+  "dependencies": {
+    "@elysiajs/cors": "^1.3.3",
+    "@smithy/eventstream-codec": "^4.0.4",
+    "@smithy/util-utf8": "^4.0.0",
+    "elysia": "^1.3.8",
+    "gpt-tokenizer": "^3.0.1",
+    "inversify": "^7.7.0",
+    "mongodb": "6.18.0",
+    "nanoid": "^5.1.5",
+    "node-cron": "^4.2.1",
+    "prom-client": "^15.1.3",
+    "rate-limiter-flexible": "^7.2.0",
+    "reflect-metadata": "^0.2.2",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.19",
+    "@types/node": "^24.2.0"
+  }
+}
